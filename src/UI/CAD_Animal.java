@@ -5,6 +5,12 @@
  */
 package UI;
 
+import Entity.Animal;
+import controller.AnimalJpaController;
+import controller.JpaUtil;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author carto
@@ -16,8 +22,9 @@ public class CAD_Animal extends javax.swing.JFrame {
      */
     public CAD_Animal() {
         initComponents();
+        
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,21 +38,20 @@ public class CAD_Animal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
+        txtNome_Animal = new javax.swing.JTextField();
+        txtIdade_Animal = new javax.swing.JTextField();
+        RButton_Ani_Masc = new javax.swing.JRadioButton();
+        RButton_Ani_Femin = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
+        TP_Animal = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        ID_cliente = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        Nome_Cliente = new javax.swing.JTextField();
         Btn_Cadastrar_Animal = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        BuscarCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,25 +66,60 @@ public class CAD_Animal extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel3.setText("Sexo:");
 
-        jRadioButton5.setText("Masculino");
+        txtNome_Animal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNome_AnimalActionPerformed(evt);
+            }
+        });
 
-        jRadioButton6.setText("Feminino");
+        RButton_Ani_Masc.setText("Masculino");
+        RButton_Ani_Masc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RButton_Ani_MascActionPerformed(evt);
+            }
+        });
+
+        RButton_Ani_Femin.setText("Feminino");
+        RButton_Ani_Femin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RButton_Ani_FeminActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel4.setText("Animal:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro ", "Gato ", "Hamster", "Jumento ", "Tartaruga", "Calopsita", "Cavalo" }));
-
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jLabel5.setText("Raça:");
+        TP_Animal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro ", "Gato ", "Hamster", "Jumento ", "Tartaruga", "Calopsita", "Cavalo" }));
+        TP_Animal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TP_AnimalActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Proprietário-    ID:");
 
+        ID_cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ID_clienteActionPerformed(evt);
+            }
+        });
+
         jLabel7.setText("Nome:");
+
+        Nome_Cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Nome_ClienteActionPerformed(evt);
+            }
+        });
 
         Btn_Cadastrar_Animal.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         Btn_Cadastrar_Animal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Images/success.png"))); // NOI18N
         Btn_Cadastrar_Animal.setText("Cadastrar");
+        Btn_Cadastrar_Animal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_Cadastrar_AnimalActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Images/error.png"))); // NOI18N
@@ -90,6 +131,13 @@ public class CAD_Animal extends javax.swing.JFrame {
         });
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Images/Logo_25px.png"))); // NOI18N
+
+        BuscarCliente.setText("Buscar");
+        BuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,7 +156,7 @@ public class CAD_Animal extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(227, 227, 227)
+                .addGap(133, 133, 133)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -116,26 +164,28 @@ public class CAD_Animal extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)))
+                            .addComponent(jLabel4)))
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jRadioButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 294, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtIdade_Animal, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(ID_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Nome_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(RButton_Ani_Masc)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(RButton_Ani_Femin)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(BuscarCliente))
+                    .addComponent(txtNome_Animal)
+                    .addComponent(TP_Animal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,34 +194,31 @@ public class CAD_Animal extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome_Animal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdade_Animal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jRadioButton5)
-                    .addComponent(jRadioButton6))
+                    .addComponent(RButton_Ani_Masc)
+                    .addComponent(RButton_Ani_Femin))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
+                    .addComponent(TP_Animal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ID_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                    .addComponent(Nome_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BuscarCliente))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_Cadastrar_Animal)
                     .addComponent(jButton1))
@@ -196,6 +243,55 @@ public class CAD_Animal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void TP_AnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TP_AnimalActionPerformed
+        TP_Animal.getSelectedItem();
+    }//GEN-LAST:event_TP_AnimalActionPerformed
+
+    private void Btn_Cadastrar_AnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Cadastrar_AnimalActionPerformed
+        AnimalJpaController animalDAO = new AnimalJpaController(JpaUtil.getEmf());
+        Animal novoAnimal = new Animal();
+       
+        novoAnimal.setNome(txtNome_Animal.getText());
+        novoAnimal.setIdade(Integer.parseInt(txtIdade_Animal.getText()));
+        novoAnimal.setGeneroAnimal(getGenero());
+        novoAnimal.setTipoAnimal((String) TP_Animal.getSelectedItem());
+        
+        animalDAO.create(novoAnimal);
+        
+        System.out.println("----ANIMAL NO BANCO");
+        
+        JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+        this.dispose();
+    }//GEN-LAST:event_Btn_Cadastrar_AnimalActionPerformed
+
+    private void txtNome_AnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNome_AnimalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNome_AnimalActionPerformed
+
+    private void RButton_Ani_MascActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RButton_Ani_MascActionPerformed
+        if(RButton_Ani_Masc.isSelected()){
+            Genero = "M";
+        }
+    }//GEN-LAST:event_RButton_Ani_MascActionPerformed
+
+    private void RButton_Ani_FeminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RButton_Ani_FeminActionPerformed
+        if(RButton_Ani_Femin.isSelected()){
+            Genero = "F";
+        }
+    }//GEN-LAST:event_RButton_Ani_FeminActionPerformed
+
+    private void ID_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_clienteActionPerformed
+
+    }//GEN-LAST:event_ID_clienteActionPerformed
+
+    private void Nome_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Nome_ClienteActionPerformed
+      
+    }//GEN-LAST:event_Nome_ClienteActionPerformed
+
+    private void BuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarClienteActionPerformed
+        
+    }//GEN-LAST:event_BuscarClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,23 +330,29 @@ public class CAD_Animal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Cadastrar_Animal;
+    private javax.swing.JButton BuscarCliente;
+    private javax.swing.JTextField ID_cliente;
+    private javax.swing.JTextField Nome_Cliente;
+    private javax.swing.JRadioButton RButton_Ani_Femin;
+    private javax.swing.JRadioButton RButton_Ani_Masc;
+    private javax.swing.JComboBox<String> TP_Animal;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtIdade_Animal;
+    private javax.swing.JTextField txtNome_Animal;
     // End of variables declaration//GEN-END:variables
+
+    public List<Animal> animais;
+    private String Genero;
+   
+    public String getGenero() {
+        return Genero;
+    }
 }

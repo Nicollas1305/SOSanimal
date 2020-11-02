@@ -6,6 +6,12 @@
 
 package UI;
 
+import Entity.Cliente;
+import controller.ClienteJpaController;
+import controller.JpaUtil;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author carto
@@ -15,6 +21,8 @@ public class CAD_Cliente extends javax.swing.JFrame {
     /** Creates new form CAD_Cliente */
     public CAD_Cliente() {
         initComponents();
+        
+        desabilitarCampoID();
     }
 
     /** This method is called from within the constructor to
@@ -30,22 +38,21 @@ public class CAD_Cliente extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNome_Cliente = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtID_Cliente = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        RButton_Masc = new javax.swing.JRadioButton();
+        RButton_Femin = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtEndereco_Cliente = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        txtTelefone_Cliente = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        txtCPF_Cliente = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
         Btn_cadastrar_Cliente = new javax.swing.JButton();
         Btn_cancelar_Cliente = new javax.swing.JButton();
@@ -83,30 +90,39 @@ public class CAD_Cliente extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel1.setText("Nome:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtNome_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtNome_ClienteActionPerformed(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel2.setText("ID:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtID_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtID_ClienteActionPerformed(evt);
             }
         });
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jLabel3.setText("Idade:");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel4.setText("Sexo:");
 
-        jRadioButton1.setText("Masculino");
+        buttonGroup1.add(RButton_Masc);
+        RButton_Masc.setText("Masculino");
+        RButton_Masc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RButton_MascActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setText("Feminino");
+        buttonGroup1.add(RButton_Femin);
+        RButton_Femin.setText("Feminino");
+        RButton_Femin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RButton_FeminActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel6.setText("Endereço:");
@@ -115,13 +131,13 @@ public class CAD_Cliente extends javax.swing.JFrame {
         jLabel7.setText("Contato");
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+            txtTelefone_Cliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtTelefone_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField1ActionPerformed(evt);
+                txtTelefone_ClienteActionPerformed(evt);
             }
         });
 
@@ -129,7 +145,7 @@ public class CAD_Cliente extends javax.swing.JFrame {
         jLabel5.setText("CPF:");
 
         try {
-            jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            txtCPF_Cliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -139,6 +155,11 @@ public class CAD_Cliente extends javax.swing.JFrame {
         Btn_cadastrar_Cliente.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         Btn_cadastrar_Cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Images/success.png"))); // NOI18N
         Btn_cadastrar_Cliente.setText("Cadastrar");
+        Btn_cadastrar_Cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_cadastrar_ClienteActionPerformed(evt);
+            }
+        });
 
         Btn_cancelar_Cliente.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         Btn_cancelar_Cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Images/error.png"))); // NOI18N
@@ -170,8 +191,8 @@ public class CAD_Cliente extends javax.swing.JFrame {
                             .addComponent(jLabel7))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4)))
+                            .addComponent(txtTelefone_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEndereco_Cliente)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,55 +200,47 @@ public class CAD_Cliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtID_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(59, 59, 59)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtNome_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCPF_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton1)
+                        .addComponent(RButton_Masc)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)))
+                        .addComponent(RButton_Femin)))
                 .addGap(207, 207, 207))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
+                .addContainerGap(62, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtID_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCPF_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
+                    .addComponent(RButton_Masc)
+                    .addComponent(RButton_Femin)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEndereco_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
+                    .addComponent(txtTelefone_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(101, 101, 101)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
@@ -254,21 +267,53 @@ public class CAD_Cliente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void txtNome_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNome_ClienteActionPerformed
+       
+    }//GEN-LAST:event_txtNome_ClienteActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void txtID_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtID_ClienteActionPerformed
+     
+    }//GEN-LAST:event_txtID_ClienteActionPerformed
 
-    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
+    private void txtTelefone_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefone_ClienteActionPerformed
+      
+    }//GEN-LAST:event_txtTelefone_ClienteActionPerformed
 
     private void Btn_cancelar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_cancelar_ClienteActionPerformed
         this.dispose();
     }//GEN-LAST:event_Btn_cancelar_ClienteActionPerformed
+    
+    
+    private void Btn_cadastrar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_cadastrar_ClienteActionPerformed
+        ClienteJpaController clienteDAO = new ClienteJpaController(JpaUtil.getEmf());
+        Cliente novoCliente = new Cliente();
+       
+        novoCliente.setNomeCliente(txtNome_Cliente.getText()); 
+        novoCliente.setEndereco(txtEndereco_Cliente.getText());
+        novoCliente.setCpf(txtCPF_Cliente.getText());  
+        novoCliente.setTelefone(txtTelefone_Cliente.getText());
+        novoCliente.setGenero(getGenero());
+        
+        clienteDAO.create(novoCliente);
+        
+        JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+        this.dispose();
+        
+        System.out.println("TA NO BANCO");
+    }//GEN-LAST:event_Btn_cadastrar_ClienteActionPerformed
+
+    private void RButton_MascActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RButton_MascActionPerformed
+        if(RButton_Masc.isSelected()){
+            Genero = "M";
+            
+        }
+    }//GEN-LAST:event_RButton_MascActionPerformed
+
+    private void RButton_FeminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RButton_FeminActionPerformed
+        if(RButton_Femin.isSelected()){
+            Genero = "F";
+        }
+    }//GEN-LAST:event_RButton_FeminActionPerformed
 
     /**
      * @param args the command line arguments
@@ -308,27 +353,39 @@ public class CAD_Cliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_cadastrar_Cliente;
     private javax.swing.JButton Btn_cancelar_Cliente;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JRadioButton RButton_Femin;
+    private javax.swing.JRadioButton RButton_Masc;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JFormattedTextField txtCPF_Cliente;
+    private javax.swing.JTextField txtEndereco_Cliente;
+    private javax.swing.JTextField txtID_Cliente;
+    private javax.swing.JTextField txtNome_Cliente;
+    private javax.swing.JFormattedTextField txtTelefone_Cliente;
     // End of variables declaration//GEN-END:variables
 
+    public List<Cliente> clientes;
+    public int posicao = 1;
+    
+    private String Genero;
+
+    public String getGenero() {
+        return Genero;
+    }
+    
+    public void desabilitarCampoID(){
+        txtID_Cliente.setEditable(false);
+        txtID_Cliente.setEnabled(false);
+    }
 }
