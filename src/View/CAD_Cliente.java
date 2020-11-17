@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-package UI;
+package View;
 
 import Entity.Cliente;
 import controller.ClienteJpaController;
 import controller.JpaUtil;
 import java.util.List;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author carto
@@ -272,7 +272,7 @@ public class CAD_Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNome_ClienteActionPerformed
 
     private void txtID_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtID_ClienteActionPerformed
-     
+           
     }//GEN-LAST:event_txtID_ClienteActionPerformed
 
     private void txtTelefone_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefone_ClienteActionPerformed
@@ -299,7 +299,7 @@ public class CAD_Cliente extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
         this.dispose();
         
-        System.out.println("TA NO BANCO");
+        System.out.println("CLIENTE TA NO BANCO");
     }//GEN-LAST:event_Btn_cadastrar_ClienteActionPerformed
 
     private void RButton_MascActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RButton_MascActionPerformed
@@ -387,5 +387,12 @@ public class CAD_Cliente extends javax.swing.JFrame {
     public void desabilitarCampoID(){
         txtID_Cliente.setEditable(false);
         txtID_Cliente.setEnabled(false);
+        
+        txtNome_Cliente.requestFocus();
+    }
+    
+    public void atualizaLista() {
+        Query consulta = JpaUtil.getEm().createQuery("SELECT c FROM Cliente c");
+        clientes = consulta.getResultList();
     }
 }

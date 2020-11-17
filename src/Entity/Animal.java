@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Animal.findByIdade", query = "SELECT a FROM Animal a WHERE a.idade = :idade"),
     @NamedQuery(name = "Animal.findByGeneroAnimal", query = "SELECT a FROM Animal a WHERE a.generoAnimal = :generoAnimal"),
     @NamedQuery(name = "Animal.findByTipoAnimal", query = "SELECT a FROM Animal a WHERE a.tipoAnimal = :tipoAnimal"),
-    @NamedQuery(name = "Animal.findByRacaanimal", query = "SELECT a FROM Animal a WHERE a.racaanimal = :racaanimal"),
     @NamedQuery(name = "Animal.findByIDcliente", query = "SELECT a FROM Animal a WHERE a.iDcliente = :iDcliente"),
     @NamedQuery(name = "Animal.findByNomeCliente", query = "SELECT a FROM Animal a WHERE a.nomeCliente = :nomeCliente")})
 public class Animal implements Serializable {
@@ -44,8 +43,6 @@ public class Animal implements Serializable {
     private String generoAnimal;
     @Column(name = "Tipo_Animal")
     private String tipoAnimal;
-    @Column(name = "Raca_animal")
-    private String racaanimal;
     @Column(name = "ID_cliente")
     private Integer iDcliente;
     @Column(name = "nomeCliente")
@@ -88,14 +85,6 @@ public class Animal implements Serializable {
 
     public void setTipoAnimal(String tipoAnimal) {
         this.tipoAnimal = tipoAnimal;
-    }
-
-    public String getRacaanimal() {
-        return racaanimal;
-    }
-
-    public void setRacaanimal(String racaanimal) {
-        this.racaanimal = racaanimal;
     }
 
     public Integer getIDcliente() {

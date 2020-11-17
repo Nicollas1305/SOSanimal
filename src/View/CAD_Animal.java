@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UI;
+package View;
 
 import Entity.Animal;
+import Entity.Cliente;
 import controller.AnimalJpaController;
 import controller.JpaUtil;
 import java.util.List;
@@ -25,6 +26,7 @@ public class CAD_Animal extends javax.swing.JFrame {
         
     }
     
+    AnimalJpaController animalDAO = new AnimalJpaController(JpaUtil.getEmf());
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -249,17 +251,19 @@ public class CAD_Animal extends javax.swing.JFrame {
     }//GEN-LAST:event_TP_AnimalActionPerformed
 
     private void Btn_Cadastrar_AnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Cadastrar_AnimalActionPerformed
-        AnimalJpaController animalDAO = new AnimalJpaController(JpaUtil.getEmf());
+        
         Animal novoAnimal = new Animal();
        
         novoAnimal.setNome(txtNome_Animal.getText());
         novoAnimal.setIdade(Integer.parseInt(txtIdade_Animal.getText()));
         novoAnimal.setGeneroAnimal(getGenero());
         novoAnimal.setTipoAnimal((String) TP_Animal.getSelectedItem());
+        novoAnimal.setIDcliente(Integer.parseInt(ID_cliente.getText()));
+        novoAnimal.setNomeCliente(Nome_Cliente.getText());
         
         animalDAO.create(novoAnimal);
         
-        System.out.println("----ANIMAL NO BANCO");
+        System.out.println("ANIMAL NO BANCO");
         
         JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
         this.dispose();
@@ -290,6 +294,10 @@ public class CAD_Animal extends javax.swing.JFrame {
     }//GEN-LAST:event_Nome_ClienteActionPerformed
 
     private void BuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarClienteActionPerformed
+        List<Cliente> lista = animalDAO.findAnimalEntitiesFetchID(Integer.parseInt(ID_cliente.getText()));
+        for(Cliente c : lista){   
+            Nome_Cliente.setText(c.getNomeCliente());
+        }
         
     }//GEN-LAST:event_BuscarClienteActionPerformed
 
