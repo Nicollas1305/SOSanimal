@@ -6,14 +6,15 @@
 package controller;
 
 import Entity.Animal;
+import Entity.Cliente;
 import controller.exceptions.NonexistentEntityException;
-import controller.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -109,6 +110,28 @@ public class AnimalJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Cliente> findAnimalEntitiesFetchID(int id){
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Cliente> q = em.createQuery("SELECT c FROM Cliente c WHERE c.id = :id", Cliente.class);
+            q.setParameter("id", id);
+            return q.getResultList();
+        } finally{
+            em.close();
+        }
+    }
+    
+    public List<Animal> findAnimalList(int id) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Animal> an = em.createQuery("SELECT c FROM Animal c WHERE c.iDcliente = :IDcliente", Animal.class);
+            an.setParameter("IDcliente", id);
+            return an.getResultList();
         } finally {
             em.close();
         }
